@@ -8,12 +8,16 @@ import sys
 import mouse
 try:
     import pypandoc
-    long_description = pypandoc.convert_text(mouse.__doc__, format='md', to='rst')
+    long_description = pypandoc.convert_text(mouse.__doc__ or '', format='md', to='rst')
 except ImportError:
-    long_description = mouse.__doc__
+    long_description = mouse.__doc__ or ''
 
 import re
-last_version = re.search('(\d+(?:\.\d+)+)', open('CHANGES.md').read()).group(1)
+last_version_match = re.search('(\d+(?:\.\d+)+)', open('CHANGES.md').read())
+if last_version_match:
+    last_version = last_version_match.group(1)
+else:
+    last_version = '0.0.1'
 
 from setuptools import setup
 setup(

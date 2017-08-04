@@ -34,8 +34,14 @@ run(['bash', '-c', 'make clean readme tests'], check=True)
 run(['python', 'setup.py', 'check', '-rms'], check=True)
 
 version_pattern = '(\d+(?:\.\d+)+)'
-last_version = re.search(version_pattern, open('CHANGES.md').read()).group(1)
-print('The last version was: {}'.format(last_version))
+last_version_match = re.search(version_pattern, open('CHANGES.md').read())
+if last_version_match:
+    last_version = last_version_match.group(1)
+    print('The last version was: {}'.format(last_version))
+else:
+    last_version = None
+    print('There is no previous version (no git tags matchin v.X.X.X).')
+
 new_version = input('Enter new version or leave empty to only update metadata: ') if len(sys.argv) == 1 else sys.argv[1]
 if new_version.startswith('v'):
     new_version = new_version[1:]
@@ -51,7 +57,10 @@ if not new_version:
 
 assert re.fullmatch(version_pattern, new_version)
 
-commits = check_output(['git', 'log', 'v{}..HEAD'.format(last_version), '--oneline'], universal_newlines=True)
+if last_version:
+    commits = check_output(['git', 'log', 'v{}..HEAD'.format(last_version), '--oneline'], universal_newlines=True)
+else:
+    commits = check_output(['git', 'log', '--oneline'], universal_newlines=True)
 with open('message.txt', 'w') as message_file:
     atexit.register(lambda: os.remove('message.txt'))
 
