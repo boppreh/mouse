@@ -5,6 +5,8 @@ mouse
 
 Take full control of your mouse with this small Python library. Hook global events, register hotkeys, simulate mouse movement and clicks, and much more.
 
+_Huge thanks to [Kirill Pavlov](http://kirillpavlov.com/) for donating the package name. If you are looking for the Cheddargetter.com client implementation, [`pip install mouse==0.5.0`](https://pypi.python.org/pypi/mouse/0.5.0)._
+
 ## Features
 
 - Global event hook on all mice devices (captures events regardless of focus).
