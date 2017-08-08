@@ -1,3 +1,9 @@
+# 0.6.1
+
+- [Windows] Fixed ctypes type-checking error.
+- [All] Misc fixes to release process.
+
+
 # 0.6.0
 
 - Added README and API docs.
