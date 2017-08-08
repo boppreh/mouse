@@ -19,6 +19,10 @@ if last_version_match:
 else:
     last_version = '0.0.1'
 
+# Wheel creation breaks with Windows newlines.
+# https://github.com/pypa/setuptools/issues/1126
+long_description = long_description.replace('\r\n', '\n')
+
 from setuptools import setup
 setup(
     name='mouse',
