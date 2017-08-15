@@ -1,3 +1,9 @@
+# 0.7.0
+
+- [All] Fix Windows hook error (#1).
+- [All] Add __main__ module, allowing `python -m mouse` to save and load events.
+
+
 # 0.6.1
 
 - [Windows] Fixed ctypes type-checking error.
