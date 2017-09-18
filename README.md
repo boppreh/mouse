@@ -260,7 +260,7 @@ Alias for field number 1
 
 ## mouse.**is\_pressed**(button=&#x27;left&#x27;)
 
-[\[source\]](https://github.com/boppreh/mouse/blob/master/.\mouse\__init__.py#L73)
+[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L73)
 
 Returns True if the given button is currently pressed. 
 
@@ -269,7 +269,7 @@ Returns True if the given button is currently pressed.
 
 ## mouse.**press**(button=&#x27;left&#x27;)
 
-[\[source\]](https://github.com/boppreh/mouse/blob/master/.\mouse\__init__.py#L78)
+[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L78)
 
 Presses the given button (but doesn't release). 
 
@@ -285,7 +285,7 @@ Alias for [`press`](#mouse.press).
 
 ## mouse.**release**(button=&#x27;left&#x27;)
 
-[\[source\]](https://github.com/boppreh/mouse/blob/master/.\mouse\__init__.py#L82)
+[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L82)
 
 Releases the given button. 
 
@@ -294,7 +294,7 @@ Releases the given button.
 
 ## mouse.**click**(button=&#x27;left&#x27;)
 
-[\[source\]](https://github.com/boppreh/mouse/blob/master/.\mouse\__init__.py#L86)
+[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L86)
 
 Sends a click with the given button. 
 
@@ -303,7 +303,7 @@ Sends a click with the given button.
 
 ## mouse.**double\_click**(button=&#x27;left&#x27;)
 
-[\[source\]](https://github.com/boppreh/mouse/blob/master/.\mouse\__init__.py#L91)
+[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L91)
 
 Sends a double click with the given button. 
 
@@ -312,7 +312,7 @@ Sends a double click with the given button.
 
 ## mouse.**right\_click**()
 
-[\[source\]](https://github.com/boppreh/mouse/blob/master/.\mouse\__init__.py#L96)
+[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L96)
 
 Sends a right click with the given button. 
 
@@ -321,7 +321,7 @@ Sends a right click with the given button.
 
 ## mouse.**wheel**(delta=1)
 
-[\[source\]](https://github.com/boppreh/mouse/blob/master/.\mouse\__init__.py#L100)
+[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L100)
 
 Scrolls the wheel `delta` clicks. Sign indicates direction. 
 
@@ -330,7 +330,7 @@ Scrolls the wheel `delta` clicks. Sign indicates direction.
 
 ## mouse.**move**(x, y, absolute=True, duration=0)
 
-[\[source\]](https://github.com/boppreh/mouse/blob/master/.\mouse\__init__.py#L104)
+[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L104)
 
 
 Moves the mouse. If `absolute`, to position (x, y), otherwise move relative
@@ -342,7 +342,7 @@ to the current position. If `duration` is non-zero, animates the movement.
 
 ## mouse.**drag**(start\_x, start\_y, end\_x, end\_y, absolute=True, duration=0)
 
-[\[source\]](https://github.com/boppreh/mouse/blob/master/.\mouse\__init__.py#L138)
+[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L138)
 
 
 Holds the left mouse button, moving from start to end position, then
@@ -355,7 +355,7 @@ movement.
 
 ## mouse.**on\_button**(callback, args=(), buttons=(&#x27;left&#x27;, &#x27;middle&#x27;, &#x27;right&#x27;, &#x27;x&#x27;, &#x27;x2&#x27;), types=(&#x27;up&#x27;, &#x27;down&#x27;, &#x27;double&#x27;))
 
-[\[source\]](https://github.com/boppreh/mouse/blob/master/.\mouse\__init__.py#L151)
+[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L151)
 
 Invokes `callback` with `args` when the specified event happens. 
 
@@ -364,7 +364,7 @@ Invokes `callback` with `args` when the specified event happens.
 
 ## mouse.**on\_click**(callback, args=())
 
-[\[source\]](https://github.com/boppreh/mouse/blob/master/.\mouse\__init__.py#L165)
+[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L165)
 
 Invokes `callback` with `args` when the left button is clicked. 
 
@@ -373,7 +373,7 @@ Invokes `callback` with `args` when the left button is clicked.
 
 ## mouse.**on\_double\_click**(callback, args=())
 
-[\[source\]](https://github.com/boppreh/mouse/blob/master/.\mouse\__init__.py#L169)
+[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L169)
 
 
 Invokes `callback` with `args` when the left button is double clicked.
@@ -384,7 +384,7 @@ Invokes `callback` with `args` when the left button is double clicked.
 
 ## mouse.**on\_right\_click**(callback, args=())
 
-[\[source\]](https://github.com/boppreh/mouse/blob/master/.\mouse\__init__.py#L175)
+[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L175)
 
 Invokes `callback` with `args` when the right button is clicked. 
 
@@ -393,7 +393,7 @@ Invokes `callback` with `args` when the right button is clicked.
 
 ## mouse.**on\_middle\_click**(callback, args=())
 
-[\[source\]](https://github.com/boppreh/mouse/blob/master/.\mouse\__init__.py#L179)
+[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L179)
 
 Invokes `callback` with `args` when the middle button is clicked. 
 
@@ -402,7 +402,7 @@ Invokes `callback` with `args` when the middle button is clicked.
 
 ## mouse.**wait**(button=&#x27;left&#x27;, target\_types=(&#x27;up&#x27;, &#x27;down&#x27;, &#x27;double&#x27;))
 
-[\[source\]](https://github.com/boppreh/mouse/blob/master/.\mouse\__init__.py#L183)
+[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L183)
 
 
 Blocks program execution until the given button performs an event.
@@ -413,7 +413,7 @@ Blocks program execution until the given button performs an event.
 
 ## mouse.**get\_position**()
 
-[\[source\]](https://github.com/boppreh/mouse/blob/master/.\mouse\__init__.py#L194)
+[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L194)
 
 Returns the (x, y) mouse position. 
 
@@ -422,7 +422,7 @@ Returns the (x, y) mouse position.
 
 ## mouse.**hook**(callback)
 
-[\[source\]](https://github.com/boppreh/mouse/blob/master/.\mouse\__init__.py#L198)
+[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L198)
 
 
 Installs a global listener on all available mouses, invoking `callback`
@@ -438,7 +438,7 @@ Returns the given callback for easier development.
 
 ## mouse.**unhook**(callback)
 
-[\[source\]](https://github.com/boppreh/mouse/blob/master/.\mouse\__init__.py#L210)
+[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L210)
 
 
 Removes a previously installed hook.
@@ -449,7 +449,7 @@ Removes a previously installed hook.
 
 ## mouse.**unhook\_all**()
 
-[\[source\]](https://github.com/boppreh/mouse/blob/master/.\mouse\__init__.py#L216)
+[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L216)
 
 
 Removes all hooks registered by this application. Note this may include
@@ -461,7 +461,7 @@ hooks installed by high level functions, such as [`record`](#mouse.record).
 
 ## mouse.**record**(button=&#x27;right&#x27;, target\_types=(&#x27;down&#x27;,))
 
-[\[source\]](https://github.com/boppreh/mouse/blob/master/.\mouse\__init__.py#L223)
+[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L223)
 
 
 Records all mouse events until the user presses the given button.
@@ -476,7 +476,7 @@ Note: for more details on the mouse hook and events see [`hook`](#mouse.hook).
 
 ## mouse.**play**(events, speed\_factor=1.0, include\_clicks=True, include\_moves=True, include\_wheel=True)
 
-[\[source\]](https://github.com/boppreh/mouse/blob/master/.\mouse\__init__.py#L237)
+[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L237)
 
 
 Plays a sequence of recorded events, maintaining the relative time
