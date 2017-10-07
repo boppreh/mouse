@@ -46,6 +46,8 @@ TranslateMessage.restype = BOOL
 DispatchMessage = user32.DispatchMessageA
 DispatchMessage.argtypes = [LPMSG]
 
+GetDoubleClickTime = user32.GetDoubleClickTime
+
 # Beware, as of 2016-01-30 the official docs have a very incomplete list.
 # This one was compiled from experience and may be incomplete.
 WM_MOUSEMOVE = 0x200
@@ -128,8 +130,12 @@ WHEEL_DELTA = 120
 
 init = lambda: None
 
+previous_button_event = None # defined in global scope
 def listen(queue):
+
     def low_level_mouse_handler(nCode, wParam, lParam):
+        global previous_button_event
+
         struct = lParam.contents
         # Can't use struct.time because it's usually zero.
         t = time.time()
@@ -143,6 +149,12 @@ def listen(queue):
             if wParam >= WM_XBUTTONDOWN:
                 button = {0x10000: X, 0x20000: X2}[struct.data]
             event = ButtonEvent(type, button, t)
+
+            if (event.event_type == DOWN) and previous_button_event is not None:
+                if event.time - previous_button_event.time <= GetDoubleClickTime() / 1000.0:
+                    event = ButtonEvent(DOUBLE, event.button, event.time)
+
+            previous_button_event = event
 
         queue.put(event)
         return CallNextHookEx(NULL, nCode, wParam, lParam)

@@ -40,6 +40,9 @@ Then check the [API docs](https://github.com/boppreh/mouse#api) to see what feat
 - To avoid depending on X the Linux parts reads raw device files (`/dev/input/input*`) but this requries root.
 - Other applications, such as some games, may register hooks that swallow all key events. In this case `mouse` will be unable to report events.
 """
+# TODO
+# - infinite wait
+# - mouse.on_move
 import time as _time
 
 import platform as _platform
