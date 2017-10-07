@@ -151,6 +151,7 @@ def listen(queue):
             event = ButtonEvent(type, button, t)
 
             if (event.event_type == DOWN) and previous_button_event is not None:
+                # https://msdn.microsoft.com/en-us/library/windows/desktop/gg153548%28v=vs.85%29.aspx?f=255&MSPPError=-2147217396
                 if event.time - previous_button_event.time <= GetDoubleClickTime() / 1000.0:
                     event = ButtonEvent(DOUBLE, event.button, event.time)
 
