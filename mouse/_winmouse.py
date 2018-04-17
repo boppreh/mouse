@@ -156,6 +156,9 @@ def listen(queue):
                     event = ButtonEvent(DOUBLE, event.button, event.time)
 
             previous_button_event = event
+        else:
+            # Unknown event type.
+            return CallNextHookEx(NULL, nCode, wParam, lParam)
 
         queue.put(event)
         return CallNextHookEx(NULL, nCode, wParam, lParam)
