@@ -7,7 +7,7 @@ from ._mouse_event import ButtonEvent, WheelEvent, MoveEvent, LEFT, RIGHT, MIDDL
 
 import ctypes
 import ctypes.util
-from ctypes import c_uint32, c_uint, c_int, byref
+from ctypes import c_uint32, c_uint, c_int, c_void_p, byref
 
 display = None
 window = None
@@ -19,9 +19,10 @@ def build_display():
     # Required because we will have multiple threads calling x11,
     # such as the listener thread and then main using "move_to".
     x11.XInitThreads()
-    display = x11.XOpenDisplay(None)
-    # Known to cause segfault in Fedora 23 64bits, no known workarounds.
+    # Explicitly set XOpenDisplay.restype to avoid segfault on 64 bit OS.
     # http://stackoverflow.com/questions/35137007/get-mouse-position-on-linux-pure-python
+    x11.XOpenDisplay.restype = c_void_p
+    display = c_void_p(x11.XOpenDisplay(0))
     window = x11.XDefaultRootWindow(display)
 
 def get_position():
