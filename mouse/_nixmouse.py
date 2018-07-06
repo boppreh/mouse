@@ -27,7 +27,7 @@ def build_display():
 
 def get_position():
     build_display()
-    root_id, child_id = c_uint32(), c_uint32()
+    root_id, child_id = c_void_p(), c_void_p()
     root_x, root_y, win_x, win_y = c_int(), c_int(), c_int(), c_int()
     mask = c_uint()
     ret = x11.XQueryPointer(display, c_uint32(window), byref(root_id), byref(child_id),
