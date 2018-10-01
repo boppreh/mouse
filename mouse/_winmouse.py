@@ -194,7 +194,11 @@ def release(button=LEFT):
 
 def wheel(delta=1):
     code = simulated_mouse_codes[(WHEEL, VERTICAL)]
-    user32.mouse_event(code, 0, 0, int(delta * WHEEL_DELTA), 0)
+    if delta >= 0:
+        user32.mouse_event(code, 0, 0, int(delta * WHEEL_DELTA), 0)
+    else:
+        # First 2 negative values are unused.
+        user32.mouse_event(code, 0, 0, int(delta * WHEEL_DELTA) - 2, 0)
 
 def move_to(x, y):
     user32.SetCursorPos(int(x), int(y))
