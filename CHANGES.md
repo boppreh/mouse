@@ -1,3 +1,10 @@
+# 0.7.1
+
+- Fixed errors and incorrect information on setup.py.
+- Fixed Windows segfault.
+- Applied pending bug fixes.
+
+
 # 0.7.0
 
 - [All] Fix Windows hook error (#1).
