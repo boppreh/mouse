@@ -166,6 +166,10 @@ def on_button(callback, args=(), buttons=(LEFT, MIDDLE, RIGHT, X, X2), types=(UP
                 callback(*args)
     _listener.add_handler(handler)
     return handler
+    
+def on_pressed(callback, args=()):
+    """ Invokes `callback` with `args` when the left button is pressed. """
+    return on_button(callback, args, [LEFT], [DOWN])
 
 def on_click(callback, args=()):
     """ Invokes `callback` with `args` when the left button is clicked. """
