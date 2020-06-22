@@ -20,6 +20,8 @@ EV_REL = 0x02
 EV_ABS = 0x03
 EV_MSC = 0x04
 
+INVALID_ARGUMENT_ERRNO = 22
+
 def make_uinput():
     import fcntl, struct
 
@@ -29,8 +31,12 @@ def make_uinput():
     fcntl.ioctl(uinput, UI_SET_EVBIT, EV_KEY)
 
     UI_SET_KEYBIT = 0x40045565
-    for i in range(256):
-        fcntl.ioctl(uinput, UI_SET_KEYBIT, i)
+    try:
+        for i in range(0x300):
+            fcntl.ioctl(uinput, UI_SET_KEYBIT, i)
+    except OSError as e:
+        if e.errno != INVALID_ARGUMENT_ERRNO:
+            raise e
 
     BUS_USB = 0x03
     uinput_user_dev = "80sHHHHi64i64i64i64i"
