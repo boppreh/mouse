@@ -106,7 +106,7 @@ def wheel(delta=1):
     """ Scrolls the wheel `delta` clicks. Sign indicates direction. """
     _os_mouse.wheel(delta)
 
-def move(x, y, absolute=True, duration=0):
+def move(x, y, absolute=True, duration=0, steps_per_second=120.0):
     """
     Moves the mouse. If `absolute`, to position (x, y), otherwise move relative
     to the current position. If `duration` is non-zero, animates the movement.
@@ -131,9 +131,9 @@ def move(x, y, absolute=True, duration=0):
         if dx == 0 and dy == 0:
             _time.sleep(duration)
         else:
-            # 120 movements per second.
+            # 'steps_per_second' movements per second, default is 120.
             # Round and keep float to ensure float division in Python 2
-            steps = max(1.0, float(int(duration * 120.0)))
+            steps = max(1.0, float(int(duration * float(steps_per_second))))
             for i in range(int(steps)+1):
                 move(start_x + dx*i/steps, start_y + dy*i/steps)
                 _time.sleep(duration/steps)
