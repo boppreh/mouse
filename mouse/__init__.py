@@ -12,8 +12,9 @@ _Huge thanks to [Kirill Pavlov](http://kirillpavlov.com/) for donating the packa
 - Global event hook on all mice devices (captures events regardless of focus).
 - **Listen** and **sends** mouse events.
 - Works with **Windows** and **Linux** (requires sudo).
+- Works with **MacOS** (requires granting accessibility permissions to terminal/python in System Preferences -> Security)
 - **Pure Python**, no C modules to be compiled.
-- **Zero dependencies**. Trivial to install and deploy, just copy the files.
+- **Zero dependencies** on Windows and Linux. Trivial to install and deploy, just copy the files.
 - **Python 2 and 3**.
 - Includes **high level API** (e.g. [record](#mouse.record) and [play](#mouse.play).
 - Events automatically captured in separate thread, doesn't block main program.
@@ -52,6 +53,8 @@ if _platform.system() == 'Windows':
     from. import _winmouse as _os_mouse
 elif _platform.system() == 'Linux':
     from. import _nixmouse as _os_mouse
+elif _platform.system() == 'Darwin':
+    from. import _darwinmouse as _os_mouse
 else:
     raise OSError("Unsupported platform '{}'".format(_platform.system()))
 
@@ -166,7 +169,7 @@ def on_button(callback, args=(), buttons=(LEFT, MIDDLE, RIGHT, X, X2), types=(UP
                 callback(*args)
     _listener.add_handler(handler)
     return handler
-    
+
 def on_pressed(callback, args=()):
     """ Invokes `callback` with `args` when the left button is pressed. """
     return on_button(callback, args, [LEFT], [DOWN])
@@ -210,7 +213,7 @@ def hook(callback):
     each time it is moved, a key status changes or the wheel is spun. A mouse
     event is passed as argument, with type either `mouse.ButtonEvent`,
     `mouse.WheelEvent` or `mouse.MoveEvent`.
-    
+
     Returns the given callback for easier development.
     """
     _listener.add_handler(callback)
