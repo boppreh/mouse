@@ -11,8 +11,9 @@ _Huge thanks to [Kirill Pavlov](http://kirillpavlov.com/) for donating the packa
 - Global event hook on all mice devices (captures events regardless of focus).
 - **Listen** and **sends** mouse events.
 - Works with **Windows** and **Linux** (requires sudo).
+- Works with **MacOS** (requires granting accessibility permissions to terminal/python in System Preferences -> Security \& Privacy)
 - **Pure Python**, no C modules to be compiled.
-- **Zero dependencies**. Trivial to install and deploy, just copy the files.
+- **Zero dependencies** on Windows and Linux. Trivial to install and deploy, just copy the files.
 - **Python 2 and 3**.
 - Includes **high level API** (e.g. [record](#mouse.record) and [play](#mouse.play).
 - Events automatically captured in separate thread, doesn't block main program.
@@ -279,7 +280,7 @@ Alias for field number 1
 
 [\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L78)
 
-Returns True if the given button is currently pressed. 
+Returns True if the given button is currently pressed.
 
 
 <a name="mouse.press"/>
@@ -288,7 +289,7 @@ Returns True if the given button is currently pressed.
 
 [\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L83)
 
-Presses the given button (but doesn't release). 
+Presses the given button (but doesn't release).
 
 
 <a name="mouse.release"/>
@@ -297,7 +298,7 @@ Presses the given button (but doesn't release).
 
 [\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L87)
 
-Releases the given button. 
+Releases the given button.
 
 
 <a name="mouse.click"/>
@@ -306,7 +307,7 @@ Releases the given button.
 
 [\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L91)
 
-Sends a click with the given button. 
+Sends a click with the given button.
 
 
 <a name="mouse.double_click"/>
@@ -315,7 +316,7 @@ Sends a click with the given button.
 
 [\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L96)
 
-Sends a double click with the given button. 
+Sends a double click with the given button.
 
 
 <a name="mouse.right_click"/>
@@ -324,7 +325,7 @@ Sends a double click with the given button.
 
 [\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L101)
 
-Sends a right click with the given button. 
+Sends a right click with the given button.
 
 
 <a name="mouse.wheel"/>
@@ -333,7 +334,7 @@ Sends a right click with the given button.
 
 [\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L105)
 
-Scrolls the wheel `delta` clicks. Sign indicates direction. 
+Scrolls the wheel `delta` clicks. Sign indicates direction.
 
 
 <a name="mouse.move"/>
@@ -367,7 +368,7 @@ movement.
 
 [\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L156)
 
-Invokes `callback` with `args` when the specified event happens. 
+Invokes `callback` with `args` when the specified event happens.
 
 
 <a name="mouse.on_click"/>
@@ -376,7 +377,7 @@ Invokes `callback` with `args` when the specified event happens.
 
 [\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L170)
 
-Invokes `callback` with `args` when the left button is clicked. 
+Invokes `callback` with `args` when the left button is clicked.
 
 
 <a name="mouse.on_double_click"/>
@@ -396,7 +397,7 @@ Invokes `callback` with `args` when the left button is double clicked.
 
 [\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L180)
 
-Invokes `callback` with `args` when the right button is clicked. 
+Invokes `callback` with `args` when the right button is clicked.
 
 
 <a name="mouse.on_middle_click"/>
@@ -405,7 +406,7 @@ Invokes `callback` with `args` when the right button is clicked.
 
 [\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L184)
 
-Invokes `callback` with `args` when the middle button is clicked. 
+Invokes `callback` with `args` when the middle button is clicked.
 
 
 <a name="mouse.wait"/>
@@ -425,7 +426,7 @@ Blocks program execution until the given button performs an event.
 
 [\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L199)
 
-Returns the (x, y) mouse position. 
+Returns the (x, y) mouse position.
 
 
 <a name="mouse.hook"/>
@@ -495,6 +496,3 @@ as the OS allows. Pairs well with [`record()`](#mouse.record).
 
 The parameters `include_*` define if events of that type should be inluded
 in the replay or ignored.
-
-
-
