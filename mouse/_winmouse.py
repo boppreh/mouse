@@ -177,8 +177,8 @@ def listen(queue):
         DispatchMessage(msg)
 
 def _translate_button(button):
-    if button == X or button == X2:
-        return X, {X: 0x10000, X2: 0x20000}[button]
+    if button.startswith(X):
+        return X, 1 if X == button else 2
     else:
         return button, 0
 
