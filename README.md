@@ -339,15 +339,16 @@ Scrolls the wheel `delta` clicks. Sign indicates direction.
 
 <a name="mouse.move"/>
 
-## mouse.**move**(x, y, absolute=True, duration=0, steps_per_second=120.0)
+## mouse.**move**(x, y, absolute=True, duration=0, steps_per_second=None)
 
 [\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L109)
 
 
 Moves the mouse. If `absolute`, to position (x, y), otherwise move relative
 to the current position. If `duration` is non-zero, animates the movement.
-The fps of the animation is determined by 'steps_per_second', default is 120.
 
+Default fps of the animation is determined from `mouse.DEFAULT_STEPS_PER_SECOND`,
+can be overwritten or explicitly specified by the `steps_per_second` argument.
 
 <a name="mouse.drag"/>
 

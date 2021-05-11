@@ -61,6 +61,8 @@ else:
 from ._mouse_event import ButtonEvent, MoveEvent, WheelEvent, LEFT, RIGHT, MIDDLE, X, X2, UP, DOWN, DOUBLE
 from ._generic import GenericListener as _GenericListener
 
+DEFAULT_STEPS_PER_SECOND = 120.0
+
 _pressed_events = set()
 class _MouseListener(_GenericListener):
     def init(self):
@@ -109,13 +111,15 @@ def wheel(delta=1):
     """ Scrolls the wheel `delta` clicks. Sign indicates direction. """
     _os_mouse.wheel(delta)
 
-def move(x, y, absolute=True, duration=0, steps_per_second=120.0):
+def move(x, y, absolute=True, duration=0, steps_per_second=None):
     """
     Moves the mouse. If `absolute`, to position (x, y), otherwise move relative
     to the current position. If `duration` is non-zero, animates the movement.
     """
     x = int(x)
     y = int(y)
+    if not steps_per_second:
+        steps_per_second = DEFAULT_STEPS_PER_SECOND
 
     # Requires an extra system call on Linux, but `move_relative` is measured
     # in millimiters so we would lose precision.
