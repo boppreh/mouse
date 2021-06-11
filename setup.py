@@ -8,13 +8,13 @@ import mouse
 
 from setuptools import setup
 setup(
-    name='mouse',
+    name='MacMouse',
     version=mouse.version,
-    author='BoppreH',
-    author_email='boppreh@gmail.com',
+    author='gansel51',
+    author_email='griffin.ansel@gmail.com',
     packages=['mouse'],
     package_data={'mouse': ['*.md']},
-    url='https://github.com/boppreh/mouse',
+    url='https://github.com/gansel51/mouse',
     license='MIT',
     description='Hook and simulate mouse events on Windows and Linux',
     keywords = 'mouse hook simulate hotkey',
@@ -28,8 +28,7 @@ setup(
     classifiers=[
         'Development Status :: 4 - Beta',
         'License :: OSI Approved :: MIT License',
-        'Operating System :: Microsoft :: Windows',
-        'Operating System :: Unix :: MacOS',
+        'Operating System :: MacOS',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 3',
         'Topic :: Software Development :: Libraries :: Python Modules',
