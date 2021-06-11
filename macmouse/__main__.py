@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import mouse
+import macmouse as mouse
 import fileinput
 import json
 import sys

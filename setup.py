@@ -6,7 +6,7 @@ Usage instructions:
 """
 import pathlib
 
-import mouse
+import macmouse as mouse
 
 from setuptools import setup
 
@@ -17,11 +17,11 @@ HERE = pathlib.Path(__file__).parent
 README = (HERE / "README.md").read_text()
 
 setup(
-    name='MacMouse',
+    name='macmouse',
     version=mouse.version,
     author='gansel51',
     author_email='griffin.ansel@gmail.com',
-    packages=['mouse'],
+    packages=['macmouse'],
     package_data={'mouse': ['*.md']},
     url='https://github.com/gansel51/mouse',
     license='MIT',
@@ -33,7 +33,7 @@ setup(
     long_description=README,
     long_description_content_type='text/markdown',
 
-    install_requires=["pyobjc-framework-Quartz; sys_platform=='darwin'"], # OSX-specific dependency
+    install_requires=["pyobjc-framework-Quartz; sys_platform=='darwin'"],  # OSX-specific dependency
     classifiers=[
         'Development Status :: 4 - Beta',
         'License :: OSI Approved :: MIT License',

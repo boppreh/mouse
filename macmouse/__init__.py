@@ -1,70 +1,23 @@
 # -*- coding: utf-8 -*-
-"""
-mouse
-=====
 
-Take full control of your mouse with this small Python library. Hook global events, register hotkeys, simulate mouse movement and clicks, and much more.
-
-_Huge thanks to [Kirill Pavlov](http://kirillpavlov.com/) for donating the package name. If you are looking for the Cheddargetter.com client implementation, [`pip install mouse==0.5.0`](https://pypi.python.org/pypi/mouse/0.5.0)._
-
-## Features
-
-- Global event hook on all mice devices (captures events regardless of focus).
-- **Listen** and **sends** mouse events.
-- Works with **Windows** and **Linux** (requires sudo).
-- Works with **MacOS** (requires granting accessibility permissions to terminal/python in System Preferences -> Security)
-- **Pure Python**, no C modules to be compiled.
-- **Zero dependencies** on Windows and Linux. Trivial to install and deploy, just copy the files.
-- **Python 2 and 3**.
-- Includes **high level API** (e.g. [record](#mouse.record) and [play](#mouse.play).
-- Events automatically captured in separate thread, doesn't block main program.
-- Tested and documented.
-
-This program makes no attempt to hide itself, so don't use it for keyloggers.
-
-## Usage
-
-Install the [PyPI package](https://pypi.python.org/pypi/mouse/):
-
-    $ sudo pip install mouse
-
-or clone the repository (no installation required, source files are sufficient):
-
-    $ git clone https://github.com/boppreh/mouse
-
-Then check the [API docs](https://github.com/boppreh/mouse#api) to see what features are available.
-
-
-## Known limitations:
-
-- Events generated under Windows don't report device id (`event.device == None`). [#21](https://github.com/boppreh/keyboard/issues/21)
-- To avoid depending on X the Linux parts reads raw device files (`/dev/input/input*`) but this requries root.
-- Other applications, such as some games, may register hooks that swallow all key events. In this case `mouse` will be unable to report events.
-"""
-# TODO
-# - infinite wait
-# - mouse.on_move
 version = '0.7.3'
 
 import time as _time
 
 import platform as _platform
-if _platform.system() == 'Windows':
-    from. import _winmouse as _os_mouse
-elif _platform.system() == 'Linux':
-    from. import _nixmouse as _os_mouse
-elif _platform.system() == 'Darwin':
-    from. import _darwinmouse as _os_mouse
-else:
-    raise OSError("Unsupported platform '{}'".format(_platform.system()))
+from. import _darwinmouse as _os_mouse
 
 from ._mouse_event import ButtonEvent, MoveEvent, WheelEvent, LEFT, RIGHT, MIDDLE, X, X2, UP, DOWN, DOUBLE
 from ._generic import GenericListener as _GenericListener
 
 _pressed_events = set()
+
+
 class _MouseListener(_GenericListener):
+
     def init(self):
         _os_mouse.init()
+
     def pre_process_event(self, event):
         if isinstance(event, ButtonEvent):
             if event.event_type in (UP, DOUBLE):
@@ -76,38 +29,47 @@ class _MouseListener(_GenericListener):
     def listen(self):
         _os_mouse.listen(self.queue)
 
+
 _listener = _MouseListener()
+
 
 def is_pressed(button=LEFT):
     """ Returns True if the given button is currently pressed. """
     _listener.start_if_necessary()
     return button in _pressed_events
 
+
 def press(button=LEFT):
     """ Presses the given button (but doesn't release). """
     _os_mouse.press(button)
 
+
 def release(button=LEFT):
     """ Releases the given button. """
     _os_mouse.release(button)
+
 
 def click(button=LEFT):
     """ Sends a click with the given button. """
     _os_mouse.press(button)
     _os_mouse.release(button)
 
+
 def double_click(button=LEFT):
     """ Sends a double click with the given button. """
     click(button)
     click(button)
 
+
 def right_click():
     """ Sends a right click with the given button. """
     click(RIGHT)
 
+
 def wheel(delta=1):
     """ Scrolls the wheel `delta` clicks. Sign indicates direction. """
     _os_mouse.wheel(delta)
+
 
 def move(x, y, absolute=True, duration=0, steps_per_second=120.0):
     """
@@ -143,6 +105,7 @@ def move(x, y, absolute=True, duration=0, steps_per_second=120.0):
     else:
         _os_mouse.move_to(x, y)
 
+
 def drag(start_x, start_y, end_x, end_y, absolute=True, duration=0):
     """
     Holds the left mouse button, moving from start to end position, then
@@ -155,6 +118,7 @@ def drag(start_x, start_y, end_x, end_y, absolute=True, duration=0):
     press()
     move(end_x, end_y, absolute, duration)
     release()
+
 
 def on_button(callback, args=(), buttons=(LEFT, MIDDLE, RIGHT, X, X2), types=(UP, DOWN, DOUBLE)):
     """ Invokes `callback` with `args` when the specified event happens. """
@@ -170,19 +134,23 @@ def on_button(callback, args=(), buttons=(LEFT, MIDDLE, RIGHT, X, X2), types=(UP
     _listener.add_handler(handler)
     return handler
 
+
 def on_pressed(callback, args=()):
     """ Invokes `callback` with `args` when the left button is pressed. """
     return on_button(callback, args, [LEFT], [DOWN])
 
+
 def on_click(callback, args=()):
     """ Invokes `callback` with `args` when the left button is clicked. """
     return on_button(callback, args, [LEFT], [UP])
+
 
 def on_double_click(callback, args=()):
     """
     Invokes `callback` with `args` when the left button is double clicked.
     """
     return on_button(callback, args, [LEFT], [DOUBLE])
+
 
 def on_middle_double_click(callback, args=()):
     """
@@ -191,14 +159,15 @@ def on_middle_double_click(callback, args=()):
     return on_button(callback, args, [MIDDLE], [DOUBLE])
 
 
-
 def on_right_click(callback, args=()):
     """ Invokes `callback` with `args` when the right button is clicked. """
     return on_button(callback, args, [RIGHT], [UP])
 
+
 def on_middle_click(callback, args=()):
     """ Invokes `callback` with `args` when the middle button is clicked. """
     return on_button(callback, args, [MIDDLE], [UP])
+
 
 def wait(button=LEFT, target_types=(UP, DOWN, DOUBLE)):
     """
