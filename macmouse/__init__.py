@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-version = '0.7.3'
+version = '0.7.4'
 
 import time as _time
 
