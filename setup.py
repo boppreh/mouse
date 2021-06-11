@@ -4,9 +4,18 @@ Usage instructions:
 - If you are installing: `python setup.py install`
 - If you are developing: `python setup.py sdist --format=zip bdist_wheel --universal bdist_wininst && twine check dist/*`
 """
+import pathlib
+
 import mouse
 
 from setuptools import setup
+
+# The directory containing this file
+HERE = pathlib.Path(__file__).parent
+
+# The text of the README file
+README = (HERE / "README.md").read_text()
+
 setup(
     name='MacMouse',
     version=mouse.version,
@@ -17,11 +26,11 @@ setup(
     url='https://github.com/gansel51/mouse',
     license='MIT',
     description='Hook and simulate mouse events on Windows and Linux',
-    keywords = 'mouse hook simulate hotkey',
+    keywords='mouse hook simulate hotkey',
 
     # Wheel creation breaks with Windows newlines.
     # https://github.com/pypa/setuptools/issues/1126
-    long_description=mouse.__doc__.replace('\r\n', '\n'),
+    long_description=README,
     long_description_content_type='text/markdown',
 
     install_requires=["pyobjc-framework-Quartz; sys_platform=='darwin'"], # OSX-specific dependency
