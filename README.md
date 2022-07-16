@@ -37,7 +37,7 @@ Then check the [API docs](https://github.com/boppreh/mouse#api) to see what feat
 ## Known limitations:
 
 - Events generated under Windows don't report device id (`event.device == None`). [#21](https://github.com/boppreh/keyboard/issues/21)
-- To avoid depending on X the Linux parts reads raw device files (`/dev/input/input*`) but this requries root.
+- To avoid depending on X the Linux parts reads raw device files (`/dev/input/input*`) but this requires root.
 - Other applications, such as some games, may register hooks that swallow all key events. In this case `mouse` will be unable to report events.
 
 
@@ -494,5 +494,5 @@ Plays a sequence of recorded events, maintaining the relative time
 intervals. If speed_factor is <= 0 then the actions are replayed as fast
 as the OS allows. Pairs well with [`record()`](#mouse.record).
 
-The parameters `include_*` define if events of that type should be inluded
+The parameters `include_*` define if events of that type should be included
 in the replay or ignored.
