@@ -113,6 +113,9 @@ def move(x, y, absolute=True, duration=0, steps_per_second=120.0):
     """
     Moves the mouse. If `absolute`, to position (x, y), otherwise move relative
     to the current position. If `duration` is non-zero, animates the movement.
+    The steps_per_second is only an approximation. Due to the internal sleep's
+    unreliability it cannot be followed strictly. The less its value is, the more
+    valid the number becomes.
     """
     x = int(x)
     y = int(y)
@@ -125,23 +128,42 @@ def move(x, y, absolute=True, duration=0, steps_per_second=120.0):
         x = position_x + x
         y = position_y + y
 
-    if duration:
-        start_x = position_x
-        start_y = position_y
-        dx = x - start_x
-        dy = y - start_y
-
-        if dx == 0 and dy == 0:
-            _time.sleep(duration)
-        else:
-            # 'steps_per_second' movements per second, default is 120.
-            # Round and keep float to ensure float division in Python 2
-            steps = max(1.0, float(int(duration * float(steps_per_second))))
-            for i in range(int(steps)+1):
-                move(start_x + dx*i/steps, start_y + dy*i/steps)
-                _time.sleep(duration/steps)
-    else:
+    if not duration:
         _os_mouse.move_to(x, y)
+        return
+    
+    start_x = position_x
+    start_y = position_y
+    dx = x - start_x
+    dy = y - start_y
+
+    if dx == 0 and dy == 0:
+        _time.sleep(duration)
+        return
+
+    interval_time = 1.0/steps_per_second
+    start_time = _time.perf_counter()
+    end_time = start_time + float(duration)
+    step_start_time = start_time
+    iteration_start_time = start_time
+    while iteration_start_time < end_time:
+        # Sleep to enforce the fps cap, considering the last step's duration and remaining time
+        last_step_duration = iteration_start_time - step_start_time
+        remaining_time = end_time - iteration_start_time
+        corrected_sleep_time = interval_time - last_step_duration
+        actual_sleep_time = min(remaining_time, corrected_sleep_time)
+        if actual_sleep_time > 0:
+            _time.sleep(actual_sleep_time)
+        step_start_time = _time.perf_counter()
+
+        # Move based on the elapsed time to ensure that the duration is valid
+        current_time = step_start_time - start_time
+        progress = current_time / duration
+        _os_mouse.move_to(start_x + dx*progress, start_y + dy*progress)
+        iteration_start_time = _time.perf_counter()
+
+    # Move to the destination to ensure the final position
+    _os_mouse.move_to(start_x + dx, start_y + dy)
 
 def drag(start_x, start_y, end_x, end_y, absolute=True, duration=0):
     """
