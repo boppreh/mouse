@@ -178,16 +178,18 @@ def drag(start_x, start_y, end_x, end_y, absolute=True, duration=0):
     move(end_x, end_y, absolute, duration)
     release()
 
-def on_button(callback, args=(), buttons=(LEFT, MIDDLE, RIGHT, X, X2), types=(UP, DOWN, DOUBLE)):
+def on_button(callback, args=(), buttons=(LEFT, MIDDLE, RIGHT, X, X2), types=(UP, DOWN, DOUBLE), injected=(True, False)):
     """ Invokes `callback` with `args` when the specified event happens. """
     if not isinstance(buttons, (tuple, list)):
         buttons = (buttons,)
     if not isinstance(types, (tuple, list)):
         types = (types,)
+    if not isinstance(injected, (tuple, list)):
+        injected = (injected,)
 
     def handler(event):
         if isinstance(event, ButtonEvent):
-            if event.event_type in types and event.button in buttons:
+            if event.event_type in types and event.button in buttons and event.injected in injected:
                 callback(*args)
     _listener.add_handler(handler)
     return handler

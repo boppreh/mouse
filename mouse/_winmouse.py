@@ -16,8 +16,7 @@ class MSLLHOOKSTRUCT(Structure):
     _fields_ = [("x", c_long),
                 ("y", c_long),
                 ('data', c_int32),
-                ('reserved', c_int32),
-                ("flags", DWORD),
+                ("flags", c_uint32),
                 ("time", c_int),
                 ]
 
@@ -139,7 +138,8 @@ def listen(queue):
         struct = lParam.contents
         # Can't use struct.time because it's usually zero.
         t = time.time()
-
+        injected = struct.flags > 0
+        
         if wParam == WM_MOUSEMOVE:
             event = MoveEvent(struct.x, struct.y, t)
         elif wParam == WM_MOUSEWHEEL:
@@ -148,12 +148,12 @@ def listen(queue):
             type, button = buttons_by_wm_code.get(wParam, ('?', '?'))
             if wParam >= WM_XBUTTONDOWN:
                 button = {0x10000: X, 0x20000: X2}[struct.data]
-            event = ButtonEvent(type, button, t)
+            event = ButtonEvent(type, button, t, injected)
 
             if (event.event_type == DOWN) and previous_button_event is not None:
                 # https://msdn.microsoft.com/en-us/library/windows/desktop/gg153548%28v=vs.85%29.aspx?f=255&MSPPError=-2147217396
                 if event.time - previous_button_event.time <= GetDoubleClickTime() / 1000.0:
-                    event = ButtonEvent(DOUBLE, event.button, event.time)
+                    event = ButtonEvent(DOUBLE, event.button, event.time, injected)
 
             previous_button_event = event
         else:
