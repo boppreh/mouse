@@ -23,6 +23,7 @@ setup(
     # https://github.com/pypa/setuptools/issues/1126
     long_description=mouse.__doc__.replace('\r\n', '\n'),
     long_description_content_type='text/markdown',
+    python_requires='>=3.3',
 
     install_requires=["pyobjc-framework-Quartz; sys_platform=='darwin'"], # OSX-specific dependency
     classifiers=[
@@ -30,7 +31,6 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Operating System :: Microsoft :: Windows',
         'Operating System :: Unix :: MacOS',
-        'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 3',
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Topic :: Utilities',
