@@ -1,6 +1,8 @@
 
-mouse
+fastmouse
 =====
+
+Forked from https://github.com/boppreh/mouse in order to improve the accuracy.
 
 Take full control of your mouse with this small Python library. Hook global events, register hotkeys, simulate mouse movement and clicks, and much more.
 
