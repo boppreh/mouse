@@ -16,7 +16,7 @@ _Huge thanks to [Kirill Pavlov](http://kirillpavlov.com/) for donating the packa
 - Works with **MacOS** (requires granting accessibility permissions to terminal/python in System Preferences -> Security \& Privacy)
 - **Pure Python**, no C modules to be compiled.
 - **Zero dependencies** on Windows and Linux. Trivial to install and deploy, just copy the files.
-- **Python 2 and 3**.
+- **Python >= 3.3**.
 - Includes **high level API** (e.g. [record](#mouse.record) and [play](#mouse.play).
 - Events automatically captured in separate thread, doesn't block main program.
 - Tested and documented.
