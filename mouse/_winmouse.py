@@ -138,7 +138,7 @@ def listen(queue):
 
         struct = lParam.contents
         # Can't use struct.time because it's usually zero.
-        t = time.time()
+        t = time.perf_counter()
 
         if wParam == WM_MOUSEMOVE:
             event = MoveEvent(struct.x, struct.y, t)
