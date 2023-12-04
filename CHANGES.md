@@ -1,3 +1,7 @@
+# 0.7.2 (fork)
+- [macOS] Add a delay after mouse_move to allow macOS time to catch up.
+
+
 # 0.7.1
 
 - Fixed errors and incorrect information on setup.py.

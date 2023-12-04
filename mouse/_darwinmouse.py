@@ -8,6 +8,8 @@ import Quartz
 from ._mouse_event import ButtonEvent, WheelEvent, MoveEvent, LEFT, RIGHT, MIDDLE, X, X2, UP, DOWN
 
 
+DARWIN_CATCH_UP_TIME = 0.01
+
 _button_mapping = {
     LEFT: (Quartz.kCGMouseButtonLeft, Quartz.kCGEventLeftMouseDown, Quartz.kCGEventLeftMouseUp, Quartz.kCGEventLeftMouseDragged),
     RIGHT: (Quartz.kCGMouseButtonRight, Quartz.kCGEventRightMouseDown, Quartz.kCGEventRightMouseUp, Quartz.kCGEventRightMouseDragged),
@@ -222,6 +224,7 @@ def move_to(x, y):
             (x, y),
             Quartz.kCGMouseButtonLeft)
     Quartz.CGEventPost(Quartz.kCGHIDEventTap, e)
+    time.sleep(DARWIN_CATCH_UP_TIME)
 
 def get_position():
     """ Returns the mouse's location as a tuple of (x, y). """

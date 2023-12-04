@@ -44,7 +44,7 @@ Then check the [API docs](https://github.com/boppreh/mouse#api) to see what feat
 # TODO
 # - infinite wait
 # - mouse.on_move
-version = '0.7.1'
+version = '0.7.2'
 
 import time as _time
 
