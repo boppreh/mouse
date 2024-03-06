@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import ctypes
 import time
-from ctypes import c_short, c_char, c_uint8, c_int32, c_int, c_uint, c_uint32, c_long, byref, Structure, CFUNCTYPE, POINTER
+from ctypes import c_short, c_char, c_uint8, c_int32, c_int, c_uint, c_uint32, c_long, c_ulong, byref, Structure, CFUNCTYPE, POINTER
 from ctypes.wintypes import DWORD, BOOL, HHOOK, MSG, LPWSTR, WCHAR, WPARAM, LPARAM
 LPMSG = POINTER(MSG)
 
@@ -16,9 +16,9 @@ class MSLLHOOKSTRUCT(Structure):
     _fields_ = [("x", c_long),
                 ("y", c_long),
                 ('data', c_int32),
-                ('reserved', c_int32),
                 ("flags", DWORD),
                 ("time", c_int),
+                ("dwExtraInfo", ctypes.c_ulong)
                 ]
 
 LowLevelMouseProc = CFUNCTYPE(c_int, WPARAM, LPARAM, POINTER(MSLLHOOKSTRUCT))
@@ -137,7 +137,6 @@ def listen(queue):
         global previous_button_event
 
         struct = lParam.contents
-        # Can't use struct.time because it's usually zero.
         t = time.time()
 
         if wParam == WM_MOUSEMOVE:
