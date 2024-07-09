@@ -12,11 +12,11 @@ _Huge thanks to [Kirill Pavlov](http://kirillpavlov.com/) for donating the packa
 - Global event hook on all mice devices (captures events regardless of focus).
 - **Listen** and **sends** mouse events.
 - Works with **Windows** and **Linux** (requires sudo).
-- Works with **MacOS** (requires granting accessibility permissions to terminal/python in System Preferences -> Security)
+- Works with **macOS** (requires granting accessibility permissions to terminal/python in System Preferences -> Security)
 - **Pure Python**, no C modules to be compiled.
 - **Zero dependencies** on Windows and Linux. Trivial to install and deploy, just copy the files.
 - **Python 2 and 3**.
-- Includes **high level API** (e.g. [record](#mouse.record) and [play](#mouse.play).
+- Includes **high level API** (e.g. [record](#mouse.record) and [play](#mouse.play)).
 - Events automatically captured in separate thread, doesn't block main program.
 - Tested and documented.
 
@@ -41,20 +41,20 @@ Then check the [API docs](https://github.com/boppreh/mouse#api) to see what feat
 - To avoid depending on X the Linux parts reads raw device files (`/dev/input/input*`) but this requires root.
 - Other applications, such as some games, may register hooks that swallow all key events. In this case `mouse` will be unable to report events.
 """
-# TODO
-# - infinite wait
-# - mouse.on_move
+# TODO:
+
 version = '0.7.1'
 
 import time as _time
 
 import platform as _platform
+
 if _platform.system() == 'Windows':
-    from. import _winmouse as _os_mouse
+    from . import _winmouse as _os_mouse
 elif _platform.system() == 'Linux':
-    from. import _nixmouse as _os_mouse
+    from . import _nixmouse as _os_mouse
 elif _platform.system() == 'Darwin':
-    from. import _darwinmouse as _os_mouse
+    from . import _darwinmouse as _os_mouse
 else:
     raise OSError("Unsupported platform '{}'".format(_platform.system()))
 
@@ -62,9 +62,12 @@ from ._mouse_event import ButtonEvent, MoveEvent, WheelEvent, LEFT, RIGHT, MIDDL
 from ._generic import GenericListener as _GenericListener
 
 _pressed_events = set()
+
+
 class _MouseListener(_GenericListener):
     def init(self):
         _os_mouse.init()
+
     def pre_process_event(self, event):
         if isinstance(event, ButtonEvent):
             if event.event_type in (UP, DOUBLE):
@@ -76,38 +79,47 @@ class _MouseListener(_GenericListener):
     def listen(self):
         _os_mouse.listen(self.queue)
 
+
 _listener = _MouseListener()
+
 
 def is_pressed(button=LEFT):
     """ Returns True if the given button is currently pressed. """
     _listener.start_if_necessary()
     return button in _pressed_events
 
+
 def press(button=LEFT):
     """ Presses the given button (but doesn't release). """
     _os_mouse.press(button)
 
+
 def release(button=LEFT):
     """ Releases the given button. """
     _os_mouse.release(button)
+
 
 def click(button=LEFT):
     """ Sends a click with the given button. """
     _os_mouse.press(button)
     _os_mouse.release(button)
 
+
 def double_click(button=LEFT):
     """ Sends a double click with the given button. """
     click(button)
     click(button)
 
+
 def right_click():
     """ Sends a right click with the given button. """
     click(RIGHT)
 
+
 def wheel(delta=1):
     """ Scrolls the wheel `delta` clicks. Sign indicates direction. """
     _os_mouse.wheel(delta)
+
 
 def move(x, y, absolute=True, duration=0, steps_per_second=120.0):
     """
@@ -121,7 +133,7 @@ def move(x, y, absolute=True, duration=0, steps_per_second=120.0):
     y = int(y)
 
     # Requires an extra system call on Linux, but `move_relative` is measured
-    # in millimeters so we would lose precision.
+    # in millimeters, so we would lose precision.
     position_x, position_y = get_position()
 
     if not absolute:
@@ -131,7 +143,7 @@ def move(x, y, absolute=True, duration=0, steps_per_second=120.0):
     if not duration:
         _os_mouse.move_to(x, y)
         return
-    
+
     start_x = position_x
     start_y = position_y
     dx = x - start_x
@@ -141,7 +153,7 @@ def move(x, y, absolute=True, duration=0, steps_per_second=120.0):
         _time.sleep(duration)
         return
 
-    interval_time = 1.0/steps_per_second
+    interval_time = 1.0 / steps_per_second
     start_time = _time.perf_counter()
     end_time = start_time + float(duration)
     step_start_time = start_time
@@ -159,11 +171,12 @@ def move(x, y, absolute=True, duration=0, steps_per_second=120.0):
         # Move based on the elapsed time to ensure that the duration is valid
         current_time = step_start_time - start_time
         progress = current_time / duration
-        _os_mouse.move_to(start_x + dx*progress, start_y + dy*progress)
+        _os_mouse.move_to(start_x + dx * progress, start_y + dy * progress)
         iteration_start_time = _time.perf_counter()
 
     # Move to the destination to ensure the final position
     _os_mouse.move_to(start_x + dx, start_y + dy)
+
 
 def drag(start_x, start_y, end_x, end_y, absolute=True, duration=0):
     """
@@ -178,6 +191,17 @@ def drag(start_x, start_y, end_x, end_y, absolute=True, duration=0):
     move(end_x, end_y, absolute, duration)
     release()
 
+
+def on_move(callback, args=()):
+    """ Invokes `callback` with `args` when the mouse moves. """
+    def handler(event):
+        if isinstance(event, MoveEvent):
+            callback(*args)
+
+    _listener.add_handler(handler)
+    return handler
+
+
 def on_button(callback, args=(), buttons=(LEFT, MIDDLE, RIGHT, X, X2), types=(UP, DOWN, DOUBLE)):
     """ Invokes `callback` with `args` when the specified event happens. """
     if not isinstance(buttons, (tuple, list)):
@@ -189,22 +213,27 @@ def on_button(callback, args=(), buttons=(LEFT, MIDDLE, RIGHT, X, X2), types=(UP
         if isinstance(event, ButtonEvent):
             if event.event_type in types and event.button in buttons:
                 callback(*args)
+
     _listener.add_handler(handler)
     return handler
+
 
 def on_pressed(callback, args=()):
     """ Invokes `callback` with `args` when the left button is pressed. """
     return on_button(callback, args, [LEFT], [DOWN])
 
+
 def on_click(callback, args=()):
     """ Invokes `callback` with `args` when the left button is clicked. """
     return on_button(callback, args, [LEFT], [UP])
+
 
 def on_double_click(callback, args=()):
     """
     Invokes `callback` with `args` when the left button is double clicked.
     """
     return on_button(callback, args, [LEFT], [DOUBLE])
+
 
 def on_middle_double_click(callback, args=()):
     """
@@ -213,29 +242,37 @@ def on_middle_double_click(callback, args=()):
     return on_button(callback, args, [MIDDLE], [DOUBLE])
 
 
-
 def on_right_click(callback, args=()):
     """ Invokes `callback` with `args` when the right button is clicked. """
     return on_button(callback, args, [RIGHT], [UP])
+
 
 def on_middle_click(callback, args=()):
     """ Invokes `callback` with `args` when the middle button is clicked. """
     return on_button(callback, args, [MIDDLE], [UP])
 
-def wait(button=LEFT, target_types=(UP, DOWN, DOUBLE)):
+
+def wait(button=None, target_types=(UP, DOWN, DOUBLE)):
     """
-    Blocks program execution until the given button performs an event.
+    Blocks program execution until the given button performs an event or,
+    if given no parameters, blocks forever.
     """
-    from threading import Lock
-    lock = Lock()
-    lock.acquire()
-    handler = on_button(lock.release, (), [button], target_types)
-    lock.acquire()
-    _listener.remove_handler(handler)
+    if button:
+        from threading import Lock
+        lock = Lock()
+        lock.acquire()
+        handler = on_button(lock.release, (), [button], target_types)
+        lock.acquire()
+        _listener.remove_handler(handler)
+    else:
+        while True:
+            _time.sleep(1e6)
+
 
 def get_position():
     """ Returns the (x, y) mouse position. """
     return _os_mouse.get_position()
+
 
 def hook(callback):
     """
@@ -249,11 +286,13 @@ def hook(callback):
     _listener.add_handler(callback)
     return callback
 
+
 def unhook(callback):
     """
     Removes a previously installed hook.
     """
     _listener.remove_handler(callback)
+
 
 def unhook_all():
     """
@@ -261,6 +300,7 @@ def unhook_all():
     hooks installed by high level functions, such as `record`.
     """
     del _listener.handlers[:]
+
 
 def record(button=RIGHT, target_types=(DOWN,)):
     """
@@ -275,6 +315,7 @@ def record(button=RIGHT, target_types=(DOWN,)):
     wait(button=button, target_types=target_types)
     unhook(recorded.append)
     return recorded
+
 
 def play(events, speed_factor=1.0, include_clicks=True, include_moves=True, include_wheel=True):
     """
