@@ -119,7 +119,7 @@ class TestMouse(unittest.TestCase):
         self.assertEqual(self.flush_events(), [(DOWN, LEFT), (UP, LEFT)])
         mouse.double_click()
         self.assertEqual(self.flush_events(), [(DOWN, LEFT), (UP, LEFT), (DOWN, LEFT), (UP, LEFT)])
-        mouse.right_click()
+        mouse.click(RIGHT)
         self.assertEqual(self.flush_events(), [(DOWN, RIGHT), (UP, RIGHT)])
         mouse.click(RIGHT)
         self.assertEqual(self.flush_events(), [(DOWN, RIGHT), (UP, RIGHT)])
@@ -187,17 +187,17 @@ class TestMouse(unittest.TestCase):
 
         self.assertTrue(self.triggers(mouse.on_move, [(MoveEvent, '')]))
 
-        self.assertTrue(self.triggers(mouse.on_click, [(UP, LEFT)]))
-        self.assertFalse(self.triggers(mouse.on_click, [(UP, RIGHT)]))
-        self.assertFalse(self.triggers(mouse.on_click, [(DOWN, LEFT)]))
-        self.assertFalse(self.triggers(mouse.on_click, [(DOWN, RIGHT)]))
+        self.assertTrue(self.triggers(mouse.on_click, [(UP, LEFT)], button=LEFT))
+        self.assertTrue(self.triggers(mouse.on_click, [(UP, RIGHT)], button=RIGHT))
+        self.assertFalse(self.triggers(mouse.on_click, [(DOWN, LEFT)], button=RIGHT))
+        self.assertFalse(self.triggers(mouse.on_click, [(DOWN, RIGHT)], button=LEFT))
 
-        self.assertTrue(self.triggers(mouse.on_double_click, [(DOUBLE, LEFT)]))
-        self.assertFalse(self.triggers(mouse.on_double_click, [(DOUBLE, RIGHT)]))
-        self.assertFalse(self.triggers(mouse.on_double_click, [(DOWN, RIGHT)]))
+        self.assertTrue(self.triggers(mouse.on_double_click, [(DOUBLE, LEFT)], button=LEFT))
+        self.assertFalse(self.triggers(mouse.on_double_click, [(DOUBLE, RIGHT)], button=LEFT))
+        self.assertFalse(self.triggers(mouse.on_double_click, [(DOWN, RIGHT)], button=LEFT))
 
-        self.assertTrue(self.triggers(mouse.on_right_click, [(UP, RIGHT)]))
-        self.assertTrue(self.triggers(mouse.on_middle_click, [(UP, MIDDLE)]))
+        self.assertTrue(self.triggers(mouse.on_click, [(UP, RIGHT)], button=RIGHT))
+        self.assertTrue(self.triggers(mouse.on_click, [(UP, MIDDLE)], button=MIDDLE))
 
     def test_wait(self):
         # If this fails it blocks. Unfortunately, but I see no other way of testing.
