@@ -1,3 +1,11 @@
+# 0.7.2
+
+- Implemented infinite wait
+- Added mouse.on_move()
+- Duplicate functions removed
+- README.md enhanced
+
+
 # 0.7.1
 
 - Fixed errors and incorrect information on setup.py.
@@ -7,14 +15,14 @@
 
 # 0.7.0
 
-- [All] Fix Windows hook error (#1).
-- [All] Add __main__ module, allowing `python -m mouse` to save and load events.
+- Fix Windows hook error (#1).
+- Add __main__ module, allowing `python -m mouse` to save and load events.
 
 
 # 0.6.1
 
-- [Windows] Fixed ctypes type-checking error.
-- [All] Misc fixes to release process.
+- Fixed ctypes type-checking error.
+- Misc fixes to release process.
 
 
 # 0.6.0
