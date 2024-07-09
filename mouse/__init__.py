@@ -218,8 +218,8 @@ def on_press(callback, args=(), button=LEFT):
     return on_button(callback, args, [button], [DOWN])
 
 
-def on_click(callback, args=(), button=LEFT):
-    """ Invokes `callback` with `args` when the specified button is clicked. """
+def on_release(callback, args=(), button=LEFT):
+    """ Invokes `callback` with `args` when the specified button is released/clicked. """
     return on_button(callback, args, [button], [UP])
 
 

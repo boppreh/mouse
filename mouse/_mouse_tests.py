@@ -187,17 +187,17 @@ class TestMouse(unittest.TestCase):
 
         self.assertTrue(self.triggers(mouse.on_move, [(MoveEvent, '')]))
 
-        self.assertTrue(self.triggers(mouse.on_click, [(UP, LEFT)], button=LEFT))
-        self.assertTrue(self.triggers(mouse.on_click, [(UP, RIGHT)], button=RIGHT))
-        self.assertFalse(self.triggers(mouse.on_click, [(DOWN, LEFT)], button=RIGHT))
-        self.assertFalse(self.triggers(mouse.on_click, [(DOWN, RIGHT)], button=LEFT))
+        self.assertTrue(self.triggers(mouse.on_release, [(UP, LEFT)], button=LEFT))
+        self.assertTrue(self.triggers(mouse.on_release, [(UP, RIGHT)], button=RIGHT))
+        self.assertFalse(self.triggers(mouse.on_release, [(DOWN, LEFT)], button=RIGHT))
+        self.assertFalse(self.triggers(mouse.on_release, [(DOWN, RIGHT)], button=LEFT))
 
         self.assertTrue(self.triggers(mouse.on_double_click, [(DOUBLE, LEFT)], button=LEFT))
         self.assertFalse(self.triggers(mouse.on_double_click, [(DOUBLE, RIGHT)], button=LEFT))
         self.assertFalse(self.triggers(mouse.on_double_click, [(DOWN, RIGHT)], button=LEFT))
 
-        self.assertTrue(self.triggers(mouse.on_click, [(UP, RIGHT)], button=RIGHT))
-        self.assertTrue(self.triggers(mouse.on_click, [(UP, MIDDLE)], button=MIDDLE))
+        self.assertTrue(self.triggers(mouse.on_release, [(UP, RIGHT)], button=RIGHT))
+        self.assertTrue(self.triggers(mouse.on_release, [(UP, MIDDLE)], button=MIDDLE))
 
     def test_wait(self):
         # If this fails it blocks. Unfortunately, but I see no other way of testing.
