@@ -43,7 +43,7 @@ Then check the [API docs](https://github.com/boppreh/mouse#api) to see what feat
 """
 # TODO:
 
-version = '0.7.1'
+version = '0.7.2'
 
 import time as _time
 
@@ -111,13 +111,8 @@ def double_click(button=LEFT):
     click(button)
 
 
-def right_click():
-    """ Sends a right click with the given button. """
-    click(RIGHT)
-
-
-def wheel(delta=1):
-    """ Scrolls the wheel `delta` clicks. Sign indicates direction. """
+def scroll_wheel(delta=1):
+    """ Scrolls the wheel by `delta` clicks. Sign indicates direction. """
     _os_mouse.wheel(delta)
 
 
@@ -178,18 +173,18 @@ def move(x, y, absolute=True, duration=0, steps_per_second=120.0):
     _os_mouse.move_to(start_x + dx, start_y + dy)
 
 
-def drag(start_x, start_y, end_x, end_y, absolute=True, duration=0):
+def drag(start_x, start_y, end_x, end_y, button=LEFT, absolute=True, move_duration=0, drag_duration=0):
     """
-    Holds the left mouse button, moving from start to end position, then
-    releases. `absolute` and `duration` are parameters regarding the mouse
-    movement.
+    Holds the specified mouse button, moving from start to end position, then
+    releases. `absolute`, `move_duration` are parameters regarding the mouse movement.
+    `drag_duration` is a parameter regarding the drag speed.
     """
-    if is_pressed():
-        release()
-    move(start_x, start_y, absolute, 0)
-    press()
-    move(end_x, end_y, absolute, duration)
-    release()
+    if is_pressed(button):
+        release(button)
+    move(start_x, start_y, absolute, move_duration)
+    press(button)
+    move(end_x, end_y, absolute, drag_duration)
+    release(button)
 
 
 def on_move(callback, args=()):
@@ -218,38 +213,21 @@ def on_button(callback, args=(), buttons=(LEFT, MIDDLE, RIGHT, X, X2), types=(UP
     return handler
 
 
-def on_pressed(callback, args=()):
-    """ Invokes `callback` with `args` when the left button is pressed. """
-    return on_button(callback, args, [LEFT], [DOWN])
+def on_press(callback, args=(), button=LEFT):
+    """ Invokes `callback` with `args` when the specified button is pressed. """
+    return on_button(callback, args, [button], [DOWN])
 
 
-def on_click(callback, args=()):
-    """ Invokes `callback` with `args` when the left button is clicked. """
-    return on_button(callback, args, [LEFT], [UP])
+def on_click(callback, args=(), button=LEFT):
+    """ Invokes `callback` with `args` when the specified button is clicked. """
+    return on_button(callback, args, [button], [UP])
 
 
-def on_double_click(callback, args=()):
+def on_double_click(callback, args=(), button=LEFT):
     """
-    Invokes `callback` with `args` when the left button is double clicked.
+    Invokes `callback` with `args` when the specified button is double-clicked.
     """
-    return on_button(callback, args, [LEFT], [DOUBLE])
-
-
-def on_middle_double_click(callback, args=()):
-    """
-    Invokes `callback` with `args` when the left button is double clicked.
-    """
-    return on_button(callback, args, [MIDDLE], [DOUBLE])
-
-
-def on_right_click(callback, args=()):
-    """ Invokes `callback` with `args` when the right button is clicked. """
-    return on_button(callback, args, [RIGHT], [UP])
-
-
-def on_middle_click(callback, args=()):
-    """ Invokes `callback` with `args` when the middle button is clicked. """
-    return on_button(callback, args, [MIDDLE], [UP])
+    return on_button(callback, args, [button], [DOUBLE])
 
 
 def wait(button=None, target_types=(UP, DOWN, DOUBLE)):
