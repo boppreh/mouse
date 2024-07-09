@@ -11,11 +11,11 @@ _Huge thanks to [Kirill Pavlov](http://kirillpavlov.com/) for donating the packa
 - Global event hook on all mice devices (captures events regardless of focus).
 - **Listen** and **sends** mouse events.
 - Works with **Windows** and **Linux** (requires sudo).
-- Works with **MacOS** (requires granting accessibility permissions to terminal/python in System Preferences -> Security \& Privacy)
+- Works with **macOS** (requires granting accessibility permissions to terminal/python in System Preferences -> Security \& Privacy)
 - **Pure Python**, no C modules to be compiled.
 - **Zero dependencies** on Windows and Linux. Trivial to install and deploy, just copy the files.
 - **Python 2 and 3**.
-- Includes **high level API** (e.g. [record](#mouse.record) and [play](#mouse.play).
+- Includes **high level API** (e.g. [record](#mouse.record) and [play](#mouse.play)).
 - Events automatically captured in separate thread, doesn't block main program.
 - Tested and documented.
 
@@ -45,70 +45,83 @@ Then check the [API docs](https://github.com/boppreh/mouse#api) to see what feat
 # API
 #### Table of Contents
 
-- [mouse.**ButtonEvent**](#mouse.ButtonEvent)
-- [mouse.**DOUBLE**](#mouse.DOUBLE)
-- [mouse.**DOWN**](#mouse.DOWN)
-- [mouse.**LEFT**](#mouse.LEFT)
-- [mouse.**MIDDLE**](#mouse.MIDDLE)
-- [mouse.**MoveEvent**](#mouse.MoveEvent)
-- [mouse.**RIGHT**](#mouse.RIGHT)
-- [mouse.**UP**](#mouse.UP)
-- [mouse.**WheelEvent**](#mouse.WheelEvent)
-- [mouse.**X**](#mouse.X)
-- [mouse.**X2**](#mouse.X2)
-- [mouse.**version**](#mouse.version)
-- [mouse.**is\_pressed**](#mouse.is_pressed)
-- [mouse.**press**](#mouse.press) *(aliases: `hold`)*
-- [mouse.**release**](#mouse.release)
-- [mouse.**click**](#mouse.click)
-- [mouse.**double\_click**](#mouse.double_click)
-- [mouse.**right\_click**](#mouse.right_click)
-- [mouse.**wheel**](#mouse.wheel)
-- [mouse.**move**](#mouse.move)
-- [mouse.**drag**](#mouse.drag)
-- [mouse.**on\_button**](#mouse.on_button)
-- [mouse.**on\_click**](#mouse.on_click)
-- [mouse.**on\_double\_click**](#mouse.on_double_click)
-- [mouse.**on\_right\_click**](#mouse.on_right_click)
-- [mouse.**on\_middle\_click**](#mouse.on_middle_click)
-- [mouse.**wait**](#mouse.wait)
-- [mouse.**get\_position**](#mouse.get_position)
-- [mouse.**hook**](#mouse.hook)
-- [mouse.**unhook**](#mouse.unhook)
-- [mouse.**unhook\_all**](#mouse.unhook_all)
-- [mouse.**record**](#mouse.record)
-- [mouse.**play**](#mouse.play) *(aliases: `replay`)*
+- [class mouse.**ButtonEvent**](#class-mouse--buttonevent--)
+  * [ButtonEvent.**button**](#buttonevent--button--)
+  * [ButtonEvent.**count**(self, value, /)](#buttonevent--count---self--value----)
+  * [ButtonEvent.**event\_type**](#buttonevent--event--type--)
+  * [ButtonEvent.**index**(self, value, start=0, stop=9223372036854775807, /)](#buttonevent--index---self--value--start-0--stop-9223372036854775807----)
+  * [ButtonEvent.**time**](#buttonevent--time--)
+- [mouse.**DOUBLE**](#mouse--double--)
+- [mouse.**DOWN**](#mouse--down--)
+- [mouse.**LEFT**](#mouse--left--)
+- [mouse.**MIDDLE**](#mouse--middle--)
+- [class mouse.**MoveEvent**](#class-mouse--moveevent--)
+  * [MoveEvent.**count**(self, value, /)](#moveevent--count---self--value----)
+  * [MoveEvent.**index**(self, value, start=0, stop=9223372036854775807, /)](#moveevent--index---self--value--start-0--stop-9223372036854775807----)
+  * [MoveEvent.**time**](#moveevent--time--)
+  * [MoveEvent.**x**](#moveevent--x--)
+  * [MoveEvent.**y**](#moveevent--y--)
+- [mouse.**RIGHT**](#mouse--right--)
+- [mouse.**UP**](#mouse--up--)
+- [class mouse.**WheelEvent**](#class-mouse--wheelevent--)
+  * [WheelEvent.**count**(self, value, /)](#wheelevent--count---self--value----)
+  * [WheelEvent.**delta**](#wheelevent--delta--)
+  * [WheelEvent.**index**(self, value, start=0, stop=9223372036854775807, /)](#wheelevent--index---self--value--start-0--stop-9223372036854775807----)
+  * [WheelEvent.**time**](#wheelevent--time--)
+- [mouse.**X**](#mouse--x--)
+- [mouse.**X2**](#mouse--x2--)
+- [mouse.**version**](#mouse--version--)
+- [mouse.**is\_pressed**(button=&#x27;left&#x27;)](#mouse--is--pressed---button---x27-left--x27--)
+- [mouse.**press**(button=&#x27;left&#x27;)](#mouse--press---button---x27-left--x27--)
+- [mouse.**release**(button=&#x27;left&#x27;)](#mouse--release---button---x27-left--x27--)
+- [mouse.**click**(button=&#x27;left&#x27;)](#mouse--click---button---x27-left--x27--)
+- [mouse.**double\_click**(button=&#x27;left&#x27;)](#mouse--double--click---button---x27-left--x27--)
+- [mouse.**scroll\_wheel**(delta=1)](#mouse--scroll--wheel---delta-1-)
+- [mouse.**move**(x, y, absolute=True, duration=0, steps_per_second=120.0)](#mouse--move---x--y--absolute-true--duration-0--steps-per-second-1200-)
+- [mouse.**drag**(start\_x, start\_y, end\_x, end\_y, button=&#x27;left&#x27; absolute=True, move_duration=0, drag_duration=0)](#mouse--drag---start--x--start--y--end--x--end--y--button---x27-left--x27--absolute-true--move-duration-0--drag-duration-0-)
+- [mouse.**on\_move**(callback, args=())](#mouse--on--move---callback--args----)
+- [mouse.**on\_button**(callback, args=(), buttons=(&#x27;left&#x27;, &#x27;middle&#x27;, &#x27;right&#x27;, &#x27;x&#x27;, &#x27;x2&#x27;), types=(&#x27;up&#x27;, &#x27;down&#x27;, &#x27;double&#x27;))](#mouse--on--button---callback--args-----buttons----x27-left--x27-----x27-middle--x27-----x27-right--x27-----x27-x--x27-----x27-x2--x27----types----x27-up--x27-----x27-down--x27-----x27-double--x27---)
+- [mouse.**on\_press**(callback, args=(), button=&#x27;left&#x27;)](#mouse--on--press---callback--args-----button---x27-left--x27-)
+- [mouse.**on\_release**(callback, args=(), button=&#x27;left&#x27;)](#mouse--on--release---callback--args-----button---x27-left--x27-)
+- [mouse.**on\_double\_click**(callback, args=(), button=&#x27;left&#x27;)](#mouse--on--double--click---callback--args----)
+- [mouse.**wait**(button=None, target\_types=(&#x27;up&#x27;, &#x27;down&#x27;, &#x27;double&#x27;))](#mouse--wait---button-none--target--types----x27-up--x27-----x27-down--x27-----x27-double--x27---)
+- [mouse.**get\_position**()](#mouse--get--position----)
+- [mouse.**hook**(callback)](#mouse--hook---callback-)
+- [mouse.**unhook**(callback)](#mouse--unhook---callback-)
+- [mouse.**unhook\_all**()](#mouse--unhook--all----)
+- [mouse.**record**(button=&#x27;right&#x27;, target\_types=(&#x27;down&#x27;,))](#mouse--record---button---x27-right--x27---target--types----x27-down--x27----)
+- [mouse.**play**(events, speed\_factor=1.0, include\_clicks=True, include\_moves=True, include\_wheel=True)](#mouse--play---events--speed--factor-10--include--clicks-true--include--moves-true--include--wheel-true-)
 
 
-<a name="mouse.ButtonEvent"/>
+<a name="mouse.ButtonEvent"></a>
 
 ## class mouse.**ButtonEvent**
 
 ButtonEvent(event_type, button, time)
 
 
-<a name="ButtonEvent.button"/>
+<a name="ButtonEvent.button"></a>
 
 ### ButtonEvent.**button**
 
 Alias for field number 1
 
 
-<a name="ButtonEvent.count"/>
+<a name="ButtonEvent.count"></a>
 
 ### ButtonEvent.**count**(self, value, /)
 
 Return number of occurrences of value.
 
 
-<a name="ButtonEvent.event_type"/>
+<a name="ButtonEvent.event_type"></a>
 
 ### ButtonEvent.**event\_type**
 
 Alias for field number 0
 
 
-<a name="ButtonEvent.index"/>
+<a name="ButtonEvent.index"></a>
 
 ### ButtonEvent.**index**(self, value, start=0, stop=9223372036854775807, /)
 
@@ -117,58 +130,56 @@ Return first index of value.
 Raises ValueError if the value is not present.
 
 
-<a name="ButtonEvent.time"/>
+<a name="ButtonEvent.time"></a>
 
 ### ButtonEvent.**time**
 
 Alias for field number 2
 
 
-
-
-<a name="mouse.DOUBLE"/>
+<a name="mouse.DOUBLE"></a>
 
 ## mouse.**DOUBLE**
 ```py
 = 'double'
 ```
 
-<a name="mouse.DOWN"/>
+<a name="mouse.DOWN"></a>
 
 ## mouse.**DOWN**
 ```py
 = 'down'
 ```
 
-<a name="mouse.LEFT"/>
+<a name="mouse.LEFT"></a>
 
 ## mouse.**LEFT**
 ```py
 = 'left'
 ```
 
-<a name="mouse.MIDDLE"/>
+<a name="mouse.MIDDLE"></a>
 
 ## mouse.**MIDDLE**
 ```py
 = 'middle'
 ```
 
-<a name="mouse.MoveEvent"/>
+<a name="mouse.MoveEvent"></a>
 
 ## class mouse.**MoveEvent**
 
 MoveEvent(x, y, time)
 
 
-<a name="MoveEvent.count"/>
+<a name="MoveEvent.count"></a>
 
 ### MoveEvent.**count**(self, value, /)
 
 Return number of occurrences of value.
 
 
-<a name="MoveEvent.index"/>
+<a name="MoveEvent.index"></a>
 
 ### MoveEvent.**index**(self, value, start=0, stop=9223372036854775807, /)
 
@@ -177,65 +188,63 @@ Return first index of value.
 Raises ValueError if the value is not present.
 
 
-<a name="MoveEvent.time"/>
+<a name="MoveEvent.time"></a>
 
 ### MoveEvent.**time**
 
 Alias for field number 2
 
 
-<a name="MoveEvent.x"/>
+<a name="MoveEvent.x"></a>
 
 ### MoveEvent.**x**
 
 Alias for field number 0
 
 
-<a name="MoveEvent.y"/>
+<a name="MoveEvent.y"></a>
 
 ### MoveEvent.**y**
 
 Alias for field number 1
 
 
-
-
-<a name="mouse.RIGHT"/>
+<a name="mouse.RIGHT"></a>
 
 ## mouse.**RIGHT**
 ```py
 = 'right'
 ```
 
-<a name="mouse.UP"/>
+<a name="mouse.UP"></a>
 
 ## mouse.**UP**
 ```py
 = 'up'
 ```
 
-<a name="mouse.WheelEvent"/>
+<a name="mouse.WheelEvent"></a>
 
 ## class mouse.**WheelEvent**
 
 WheelEvent(delta, time)
 
 
-<a name="WheelEvent.count"/>
+<a name="WheelEvent.count"></a>
 
 ### WheelEvent.**count**(self, value, /)
 
 Return number of occurrences of value.
 
 
-<a name="WheelEvent.delta"/>
+<a name="WheelEvent.delta"></a>
 
 ### WheelEvent.**delta**
 
 Alias for field number 0
 
 
-<a name="WheelEvent.index"/>
+<a name="WheelEvent.index"></a>
 
 ### WheelEvent.**index**(self, value, start=0, stop=9223372036854775807, /)
 
@@ -244,196 +253,181 @@ Return first index of value.
 Raises ValueError if the value is not present.
 
 
-<a name="WheelEvent.time"/>
+<a name="WheelEvent.time"></a>
 
 ### WheelEvent.**time**
 
 Alias for field number 1
 
 
-
-
-<a name="mouse.X"/>
+<a name="mouse.X"></a>
 
 ## mouse.**X**
 ```py
 = 'x'
 ```
 
-<a name="mouse.X2"/>
+<a name="mouse.X2"></a>
 
 ## mouse.**X2**
 ```py
 = 'x2'
 ```
 
-<a name="mouse.version"/>
+<a name="mouse.version"></a>
 
 ## mouse.**version**
 ```py
-= '0.7.1'
+= '0.7.2'
 ```
 
-<a name="mouse.is_pressed"/>
+<a name="mouse.is_pressed"></a>
 
 ## mouse.**is\_pressed**(button=&#x27;left&#x27;)
 
-[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L78)
+[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L86)
 
 Returns True if the given button is currently pressed.
 
 
-<a name="mouse.press"/>
+<a name="mouse.press"></a>
 
 ## mouse.**press**(button=&#x27;left&#x27;)
 
-[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L83)
+[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L92)
 
 Presses the given button (but doesn't release).
 
 
-<a name="mouse.release"/>
+<a name="mouse.release"></a>
 
 ## mouse.**release**(button=&#x27;left&#x27;)
 
-[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L87)
+[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L97)
 
 Releases the given button.
 
 
-<a name="mouse.click"/>
+<a name="mouse.click"></a>
 
 ## mouse.**click**(button=&#x27;left&#x27;)
 
-[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L91)
+[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L102)
 
 Sends a click with the given button.
 
 
-<a name="mouse.double_click"/>
+<a name="mouse.double_click"></a>
 
 ## mouse.**double\_click**(button=&#x27;left&#x27;)
 
-[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L96)
+[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L108)
 
 Sends a double click with the given button.
 
 
-<a name="mouse.right_click"/>
+<a name="mouse.scroll_wheel"></a>
 
-## mouse.**right\_click**()
+## mouse.**scroll\_wheel**(delta=1)
 
-[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L101)
+[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L114)
 
-Sends a right click with the given button.
-
-
-<a name="mouse.wheel"/>
-
-## mouse.**wheel**(delta=1)
-
-[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L105)
-
-Scrolls the wheel `delta` clicks. Sign indicates direction.
+Scrolls the wheel by `delta` clicks. Sign indicates direction.
 
 
-<a name="mouse.move"/>
+<a name="mouse.move"></a>
 
 ## mouse.**move**(x, y, absolute=True, duration=0, steps_per_second=120.0)
 
-[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L109)
+[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L119)
 
 
 Moves the mouse. If `absolute`, to position (x, y), otherwise move relative
 to the current position. If `duration` is non-zero, animates the movement.
-The fps of the animation is determined by 'steps_per_second', default is 120.
+The steps_per_second is only an approximation. Due to the internal sleep's
+unreliability it cannot be followed strictly. The less its value is, the more
+valid the number becomes.
+
+<a name="mouse.drag"></a>
+
+## mouse.**drag**(start\_x, start\_y, end\_x, end\_y, button=&#x27;left&#x27; absolute=True, move_duration=0, drag_duration=0)
+
+[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L176)
 
 
-<a name="mouse.drag"/>
-
-## mouse.**drag**(start\_x, start\_y, end\_x, end\_y, absolute=True, duration=0)
-
-[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L143)
+Holds the specified mouse button, moving from start to end position, then
+releases. `absolute`, `move_duration` are parameters regarding the mouse movement.
+`drag_duration` is a parameter regarding the drag speed.
 
 
-Holds the left mouse button, moving from start to end position, then
-releases. `absolute` and `duration` are parameters regarding the mouse
-movement.
+<a name="mouse.on_move"></a>
+
+## mouse.**on\_move**(callback, args=())
+
+[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L190)
+
+Invokes `callback` with `args` when the mouse moves.
 
 
-
-<a name="mouse.on_button"/>
+<a name="mouse.on_button"></a>
 
 ## mouse.**on\_button**(callback, args=(), buttons=(&#x27;left&#x27;, &#x27;middle&#x27;, &#x27;right&#x27;, &#x27;x&#x27;, &#x27;x2&#x27;), types=(&#x27;up&#x27;, &#x27;down&#x27;, &#x27;double&#x27;))
 
-[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L156)
+[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L200)
 
 Invokes `callback` with `args` when the specified event happens.
 
 
-<a name="mouse.on_click"/>
+<a name="mouse.on_press"></a>
 
-## mouse.**on\_click**(callback, args=())
+## mouse.**on\_press**(callback, args=(), button=&#x27;left&#x27;)
 
-[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L170)
+[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L216)
 
-Invokes `callback` with `args` when the left button is clicked.
-
-
-<a name="mouse.on_double_click"/>
-
-## mouse.**on\_double\_click**(callback, args=())
-
-[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L174)
+Invokes `callback` with `args` when the specified button is pressed.
 
 
-Invokes `callback` with `args` when the left button is double clicked.
+<a name="mouse.on_click"></a>
+
+## mouse.**on\_release**(callback, args=(), button=&#x27;left&#x27;)
+
+[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L221)
+
+Invokes `callback` with `args` when the specified button is released/clicked.
 
 
+<a name="mouse.on_double_click"></a>
 
-<a name="mouse.on_right_click"/>
+## mouse.**on\_double\_click**(callback, args=(), button=&#x27;left&#x27;)
 
-## mouse.**on\_right\_click**(callback, args=())
+[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L226)
 
-[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L180)
-
-Invokes `callback` with `args` when the right button is clicked.
-
-
-<a name="mouse.on_middle_click"/>
-
-## mouse.**on\_middle\_click**(callback, args=())
-
-[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L184)
-
-Invokes `callback` with `args` when the middle button is clicked.
+Invokes `callback` with `args` when the specified button is double-clicked.
 
 
-<a name="mouse.wait"/>
+<a name="mouse.wait"></a>
 
-## mouse.**wait**(button=&#x27;left&#x27;, target\_types=(&#x27;up&#x27;, &#x27;down&#x27;, &#x27;double&#x27;))
+## mouse.**wait**(button=None, target\_types=(&#x27;up&#x27;, &#x27;down&#x27;, &#x27;double&#x27;))
 
-[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L188)
+[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L233)
 
-
-Blocks program execution until the given button performs an event.
-
+Blocks program execution until the given button performs an event or, if given no parameters, blocks forever.
 
 
-<a name="mouse.get_position"/>
+<a name="mouse.get_position"></a>
 
 ## mouse.**get\_position**()
 
-[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L199)
+[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L250)
 
 Returns the (x, y) mouse position.
 
 
-<a name="mouse.hook"/>
+<a name="mouse.hook"></a>
 
 ## mouse.**hook**(callback)
 
-[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L203)
+[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L255)
 
 
 Installs a global listener on all available mouses, invoking `callback`
@@ -444,35 +438,32 @@ event is passed as argument, with type either `mouse.ButtonEvent`,
 Returns the given callback for easier development.
 
 
-
-<a name="mouse.unhook"/>
+<a name="mouse.unhook"></a>
 
 ## mouse.**unhook**(callback)
 
-[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L215)
+[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L268)
 
 
 Removes a previously installed hook.
 
 
-
-<a name="mouse.unhook_all"/>
+<a name="mouse.unhook_all"></a>
 
 ## mouse.**unhook\_all**()
 
-[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L221)
+[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L275)
 
 
 Removes all hooks registered by this application. Note this may include
 hooks installed by high level functions, such as [`record`](#mouse.record).
 
 
-
-<a name="mouse.record"/>
+<a name="mouse.record"></a>
 
 ## mouse.**record**(button=&#x27;right&#x27;, target\_types=(&#x27;down&#x27;,))
 
-[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L228)
+[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L283)
 
 
 Records all mouse events until the user presses the given button.
@@ -482,12 +473,11 @@ Note: this is a blocking function.
 Note: for more details on the mouse hook and events see [`hook`](#mouse.hook).
 
 
-
-<a name="mouse.play"/>
+<a name="mouse.play"></a>
 
 ## mouse.**play**(events, speed\_factor=1.0, include\_clicks=True, include\_moves=True, include\_wheel=True)
 
-[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L242)
+[\[source\]](https://github.com/boppreh/mouse/blob/master/mouse/__init__.py#L298)
 
 
 Plays a sequence of recorded events, maintaining the relative time
