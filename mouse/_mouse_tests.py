@@ -160,6 +160,8 @@ class TestMouse(unittest.TestCase):
                 self.double_click(arg)
             elif event_type == 'WHEEL':
                 self.wheel()
+            elif event_type == MoveEvent:
+                self.move(1, 1)
 
         mouse._listener.remove_handler(handler)
         return self.triggered
@@ -182,6 +184,9 @@ class TestMouse(unittest.TestCase):
         self.assertFalse(self.triggers(mouse.on_button, [(UP, X)], buttons=[MIDDLE, LEFT], types=[UP, DOWN]))
 
     def test_ons(self):
+
+        self.assertTrue(self.triggers(mouse.on_move, [(MoveEvent, '')]))
+
         self.assertTrue(self.triggers(mouse.on_click, [(UP, LEFT)]))
         self.assertFalse(self.triggers(mouse.on_click, [(UP, RIGHT)]))
         self.assertFalse(self.triggers(mouse.on_click, [(DOWN, LEFT)]))
@@ -200,7 +205,7 @@ class TestMouse(unittest.TestCase):
         lock = Lock()
         lock.acquire()
         def t():
-            mouse.wait()
+            mouse.wait(mouse.LEFT)
             lock.release()
         Thread(target=t).start()
         self.press()
